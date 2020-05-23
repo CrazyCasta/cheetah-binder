@@ -1,0 +1,3 @@
+jupyter contrib nbextension install --user
+jupyter nbextension enable ruler/main
+python setup_ruler.py

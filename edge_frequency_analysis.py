@@ -5,6 +5,16 @@ from PIL import Image
 import numpy
 import scipy.signal
 
+
+# Assuming data dimensions are odd, if not then blame the user
+def imshow_shifted(axes, data):
+    xmin = -data.shape[0] // 2
+    xmax = data.shape[0] + xmin - 1
+    ymin = -data.shape[1] // 2
+    ymax = data.shape[1] + ymin - 1
+    axes.imshow(data, extent=(xmin, xmax, ymin, ymax), origin='lower')
+
+
 class EdgeFrequencyAnalysis:
     figsize = (8,17)
     def __init__(self, image_filename):
@@ -49,8 +59,8 @@ class EdgeFrequencyAnalysis:
                                                     sharex=True, sharey=True,
                                                     figsize=self.figsize)
 
-        axeses[0].imshow(display_data)
-        axeses[1].imshow(display_data**0.5)
+        imshow_shifted(axeses[0], display_data)
+        imshow_shifted(axeses[1], display_data**0.5)
 
         figure.show()
 
@@ -86,7 +96,7 @@ class EdgeFrequencyAnalysis:
         figure = matplotlib.pyplot.figure()
 
         axes = figure.add_subplot(1,1,1)
-        axes.imshow(numpy.fft.fftshift(self.sub_edge_f)*scale_factor)
+        imshow_shifted(axes, numpy.fft.fftshift(self.sub_edge_f)*scale_factor)
         #axes.set_xlim(0,50)
         #axes.set_ylim(0,50)
 
@@ -96,7 +106,7 @@ class EdgeFrequencyAnalysis:
         figure = matplotlib.pyplot.figure()
 
         axes = figure.add_subplot(1,1,1)
-        axes.imshow(numpy.fft.fftshift(self.sub_edge_f))
+        imshow_shifted(axes, numpy.fft.fftshift(self.sub_edge_f))
         #axes.set_xlim(0,50)
         #axes.set_ylim(0,50)
 

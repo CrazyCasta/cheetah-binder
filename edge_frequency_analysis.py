@@ -15,6 +15,14 @@ def imshow_shifted(axes, data):
     axes.imshow(data, extent=(xmin, xmax, ymin, ymax), origin='lower')
 
 
+# Transform from frequency space to grid space
+def frequency_to_grid(fx, fy, size):
+    gx = size/(fx**2 + fy**2) * fx
+    gy = size/(fx**2 + fy**2) * fy
+
+    return gx, gy
+
+
 class EdgeFrequencyAnalysis:
     figsize = (8,17)
     def __init__(self, image_filename):
